@@ -199,60 +199,77 @@
 
     <!-- Backend calls -->
     <script>
-      // Register
-      document.getElementById("register-submit").addEventListener("click", async () => {
-        const name = document.getElementById("register-name").value;
-        const mobile = document.getElementById("register-mobile").value;
-        const password = document.getElementById("register-password").value;
+  // ---- REGISTER HANDLER ----
+  document.getElementById("register-submit").addEventListener("click", async () => {
+    const name = document.getElementById("register-name").value;
+    const mobile = document.getElementById("register-mobile").value;
+    const password = document.getElementById("register-password").value;
 
-        const payload = { fullName: name, mobile: mobile, passwordHash: password };
+    const payload = {
+      fullName: name,
+      mobile: mobile,
+      passwordHash: password
+    };
 
-        try {
-          const response = await fetch(`${API_BASE}/users/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            alert(data.message || "Registered successfully!");
-          } else {
-            const text = await response.text();
-            alert("Register failed: " + text);
-          }
-        } catch (err) {
-          alert("Error: " + err.message);
-        }
+    try {
+      const response = await fetch(`${API_BASE}/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
 
-      // Login
-      document.getElementById("login-submit").addEventListener("click", async () => {
-        const mobile = document.getElementById("login-mobile").value;
-        const password = document.getElementById("login-password").value;
+      const raw = await response.text();
+      let data;
+      try { data = JSON.parse(raw); } catch { data = raw; }
 
-        const payload = { mobile: mobile, passwordHash: password };
+      if (response.ok) {
+        const msg = (data && data.message) ? data.message : (typeof data === 'string' ? data : JSON.stringify(data));
+        alert(msg || "Registered successfully!");
+      } else {
+        const errMsg = (data && data.error) ? data.error : (typeof data === 'string' ? data : JSON.stringify(data));
+        alert("Register failed: " + errMsg);
+      }
+    } catch (err) {
+      alert("Network / fetch error: " + err.message);
+    }
+  });
 
-        try {
-          const response = await fetch(`${API_BASE}/users/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
+  // ---- LOGIN HANDLER ----
+  document.getElementById("login-submit").addEventListener("click", async () => {
+    const mobile = document.getElementById("login-mobile").value;
+    const password = document.getElementById("login-password").value;
 
-          if (response.ok) {
-            const user = await response.json();
-            alert("Welcome " + user.fullName);
-            localStorage.setItem("userId", user.id);
-            window.location.href = "userPage.html";
-          } else {
-            const text = await response.text();
-            alert("Login failed: " + text);
-          }
-        } catch (err) {
-          alert("Error: " + err.message);
-        }
+    const payload = { mobile: mobile, passwordHash: password };
+
+    try {
+      const response = await fetch(`${API_BASE}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-    </script>
+
+      const raw = await response.text();
+      let data;
+      try { data = JSON.parse(raw); } catch { data = raw; }
+
+      if (response.ok) {
+        // If backend returned JSON user object
+        if (data && data.fullName) {
+          alert("Welcome " + data.fullName);
+          localStorage.setItem("userId", data.id);
+          window.location.href = "userPage.html";
+        } else {
+          alert(typeof data === 'string' ? data : "Login successful!");
+          window.location.href = "userPage.html";
+        }
+      } else {
+        const errMsg = (data && data.error) ? data.error : (typeof data === 'string' ? data : JSON.stringify(data));
+        alert("Login failed: " + errMsg);
+      }
+    } catch (err) {
+      alert("Network / fetch error: " + err.message);
+    }
+  });
+</script>
   </body>
 </html>
