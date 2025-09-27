@@ -103,9 +103,10 @@
               <button data-target="login-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-gov-blue text-gov-blue">
                 Login
               </button>
-              <button data-target="register-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-transparent text-gray-500 hover:text-gov-blue">
-                Register
-              </button>
+              <button id="register-submit" type="button"
+  class="w-full py-3 px-4 bg-gov-blue text-white font-semibold rounded-md shadow-md hover:bg-gov-blue-dark transition-all duration-200">
+  Register
+</button>
             </div>
           </div>
 
@@ -122,9 +123,10 @@
             <div class="text-right">
               <a href="#" class="text-sm text-gov-blue hover:underline">Forgot Password?</a>
             </div>
-            <a href="userPage.html" class="w-full py-3 px-4 bg-gov-blue text-white font-semibold rounded-md shadow-md hover:bg-gov-blue-dark transition-all duration-200">
-                Login
-            </a>
+            <button id="login-submit" type="button"
+  class="w-full py-3 px-4 bg-gov-blue text-white font-semibold rounded-md shadow-md hover:bg-gov-blue-dark transition-all duration-200">
+  Login
+</button>
           </div>
 
           <div id="register-form" class="tab-content space-y-6 hidden">
@@ -212,6 +214,62 @@
 
       // (Add your Leaflet Map Javascript here if it's part of the page)
     </script>
+
+    <script>
+  document.getElementById("register-submit").addEventListener("click", async () => {
+    const name = document.getElementById("register-name").value;
+    const mobile = document.getElementById("register-mobile").value;
+    const password = document.getElementById("register-password").value;
+
+    // For now we’ll just use mobile as email (you can adjust later)
+    const payload = {
+      fullName: name,
+      email: mobile + "@example.com",
+      mobile: mobile,
+      passwordHash: password
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await response.text();
+      alert(text);
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  });
+</script>
+
+    <script>
+  document.getElementById("login-submit").addEventListener("click", async () => {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+
+    const payload = { email: email, passwordHash: password };
+
+    try {
+      const response = await fetch("http://localhost:8080/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        alert("Login successful!");
+        window.location.href = "userPage.html"; // redirect after success
+      } else {
+        const text = await response.text();
+        alert("Login failed: " + text);
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  });
+</script>
     
   </body>
 </html>
