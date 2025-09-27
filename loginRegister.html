@@ -37,13 +37,14 @@
       }
     </style>
   </head>
-<script>
-  // ngrok tunnel endpoint (backend API)
-  const API_BASE = "https://ressie-demesnial-manfully.ngrok-free.dev";
-</script>
-  <!-- SINGLE body (fixed duplicate-body problem) -->
-  <body class="bg-gray-100">
 
+  <script>
+    // ngrok tunnel endpoint (backend API)
+    const API_BASE = "https://ressie-demesnial-manfully.ngrok-free.dev";
+  </script>
+
+  <body class="bg-gray-100">
+    <!-- Navbar -->
     <nav class="bg-white shadow-md sticky top-0 z-50 relative">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -53,142 +54,112 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-center space-x-2">
-                <a href="registerComplaint.html" class="text-gray-600 hover:bg-gray-100 hover:shadow-md rounded-md px-3 py-2 font-medium transition-all duration-200">File a Complaint</a>
-                <a href="dashboard.html" class="text-gray-600 hover:bg-gray-100 hover:shadow-md rounded-md px-3 py-2 font-medium transition-all duration-200">Dashboard</a>
-                <a href="#" class="text-gray-600 hover:bg-gray-100 hover:shadow-md rounded-md px-3 py-2 font-medium transition-all duration-200">Help</a>
-                <a href="#" class="text-gray-600 hover:bg-gray-100 hover:shadow-md rounded-md px-3 py-2 font-medium transition-all duration-200">About us</a>
+                <a href="registerComplaint.html" class="text-gray-600 hover:bg-gray-100 px-3 py-2">File a Complaint</a>
+                <a href="dashboard.html" class="text-gray-600 hover:bg-gray-100 px-3 py-2">Dashboard</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-100 px-3 py-2">Help</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-100 px-3 py-2">About us</a>
               </div>
             </div>
           </div>
-
           <div class="hidden md:flex items-center">
-            <!-- kept the look, changed to a button-like link for seamless behavior if needed -->
-            <a href="loginRegister.html" class="bg-gov-blue text-white text-center shadow-md hover:bg-gov-blue-dark hover:shadow-lg px-5 py-2 rounded-md font-medium transform hover:-translate-y-0.5 transition-all duration-200">
+            <a href="loginRegister.html" class="bg-gov-blue text-white px-5 py-2 rounded-md">
               Login / Register
             </a>
           </div>
-
           <div class="md:hidden flex items-center">
             <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-              <span class="sr-only">Open main menu</span>
-              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
             </button>
-          </div>
-        </div>
-      </div>
-
-      <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-white shadow-lg">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-gov-blue">File a Complaint</a>
-          <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-gov-blue">Dashboard</a>
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-gov-blue">Help</a>
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-gov-blue">About us</a>
-        </div>
-        <div class="pt-4 pb-3 border-t border-gray-200">
-          <div class="px-3">
-            <a href="#" class="block w-full text-center px-4 py-2 rounded-md text-base font-medium text-white bg-gov-blue hover:bg-gov-blue-dark">Login / Register</a>
           </div>
         </div>
       </div>
     </nav>
 
+    <!-- Main -->
     <div class="min-h-screen flex items-center justify-center p-4">
       <div class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-
+        <!-- Forms -->
         <div class="w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
-
           <div class="flex items-center justify-center gap-3">
-              <svg class="h-8 w-8 text-gov-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-              </svg>
-              <h2 class="text-2xl font-bold text-center text-gov-blue">Login / Register</h2>
+            <svg class="h-8 w-8 text-gov-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+            <h2 class="text-2xl font-bold text-center text-gov-blue">Login / Register</h2>
           </div>
 
           <div>
             <div class="flex border-b border-gray-200">
-              <button data-target="login-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-gov-blue text-gov-blue">
-                Login
-              </button>
-              <button data-target="register-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-transparent text-gray-500 hover:text-gov-blue">
-                Register
-              </button>
+              <button data-target="login-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-gov-blue text-gov-blue">Login</button>
+              <button data-target="register-form" class="tab-button flex-1 py-3 text-center font-semibold border-b-2 border-transparent text-gray-500 hover:text-gov-blue">Register</button>
             </div>
           </div>
 
-          <!-- LOGIN FORM (kept original inputs and layout) -->
+          <!-- Login form -->
           <div id="login-form" class="tab-content space-y-6">
             <h2 class="text-xl font-bold text-left text-gray-800">Registered User Login</h2>
             <div>
-              <label for="login-email" class="text-sm font-medium text-gray-700">Email or Mobile Number</label>
-              <input id="login-email" type="text" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gov-blue focus:border-gov-blue" />
+              <label for="login-mobile" class="text-sm font-medium text-gray-700">Mobile Number</label>
+              <input id="login-mobile" type="tel" class="mt-1 w-full px-4 py-2 border rounded-md" />
             </div>
             <div>
               <label for="login-password" class="text-sm font-medium text-gray-700">Password</label>
-              <input id="login-password" type="password" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gov-blue focus:border-gov-blue" />
+              <input id="login-password" type="password" class="mt-1 w-full px-4 py-2 border rounded-md" />
             </div>
             <div class="text-right">
               <a href="#" class="text-sm text-gov-blue hover:underline">Forgot Password?</a>
             </div>
-
-            <!-- kept the visual style of the original anchor, but made it a button so it can POST properly -->
-            <button id="login-submit" class="w-full py-3 px-4 bg-gov-blue text-white font-semibold rounded-md shadow-md hover:bg-gov-blue-dark transition-all duration-200">
-              Login
-            </button>
+            <button id="login-submit" class="w-full py-3 px-4 bg-gov-blue text-white rounded-md">Login</button>
           </div>
 
-          <!-- REGISTER FORM (kept original layout and fields) -->
+          <!-- Register form -->
           <div id="register-form" class="tab-content space-y-6 hidden">
             <h2 class="text-xl font-bold text-left text-gray-800">New User Registration</h2>
             <div>
-              <label for="register-name" class="text-sm font-medium text-gray-700">Full Name</label>
-              <input id="register-name" type="text" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gov-blue focus:border-gov-blue" />
+              <label for="register-name" class="text-sm">Full Name</label>
+              <input id="register-name" type="text" class="mt-1 w-full px-4 py-2 border rounded-md" />
             </div>
             <div>
-              <label for="register-mobile" class="text-sm font-medium text-gray-700">Mobile Number</label>
-              <input id="register-mobile" type="tel" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gov-blue focus:border-gov-blue" />
+              <label for="register-mobile" class="text-sm">Mobile Number</label>
+              <input id="register-mobile" type="tel" class="mt-1 w-full px-4 py-2 border rounded-md" />
             </div>
             <div>
-              <label for="register-password" class="text-sm font-medium text-gray-700">Create Password</label>
-              <input id="register-password" type="password" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gov-blue focus:border-gov-blue" />
+              <label for="register-password" class="text-sm">Password</label>
+              <input id="register-password" type="password" class="mt-1 w-full px-4 py-2 border rounded-md" />
             </div>
-            <div class="text-xs text-gray-500">
-            </div>
-            <button id="register-submit" class="w-full py-3 px-4 bg-gov-blue text-white font-semibold rounded-md shadow-md hover:bg-gov-blue-dark transition-all duration-200">
-              Register
-            </button>
+            <button id="register-submit" class="w-full py-3 px-4 bg-gov-blue text-white rounded-md">Register</button>
           </div>
         </div>
 
-        <div class="flex flex-col justify-center text-center lg:text-left">
-          <div class="space-y-8">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl shadow-sm">1</div>
-              <div>
-                <h3 class="text-lg font-semibold text-gray-800">Login / Register</h3>
-                <p class="mt-1 text-gray-600">To see and track all your complaints in one place.</p>
-              </div>
+        <!-- Side info -->
+        <div class="flex flex-col justify-center text-center lg:text-left space-y-8">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl">1</div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">Login / Register</h3>
+              <p class="mt-1 text-gray-600">To see and track all your complaints in one place.</p>
             </div>
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl shadow-sm">2</div>
-              <div>
-                <h3 class="text-lg font-semibold text-gray-800">Submit Your Complaint</h3>
-                <p class="mt-1 text-gray-600">With details like location, description, and photos.</p>
-              </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl">2</div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">Submit Your Complaint</h3>
+              <p class="mt-1 text-gray-600">With details like location, description, and photos.</p>
             </div>
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl shadow-sm">3</div>
-              <div>
-                <h3 class="text-lg font-semibold text-gray-800">Complaint Assigned to Vendor</h3>
-                <p class="mt-1 text-gray-600">View live updates and resolution timelines.</p>
-              </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 text-gov-blue rounded-full font-bold text-xl">3</div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">Complaint Assigned to Vendor</h3>
+              <p class="mt-1 text-gray-600">View live updates and resolution timelines.</p>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Tabs logic (keeps behavior as you had; default = Login) -->
+    <!-- Tabs script -->
     <script>
       const tabs = document.querySelectorAll('.tab-button');
       const contents = document.querySelectorAll('.tab-content');
@@ -209,12 +180,12 @@
         });
       });
 
-      // default to login tab visible
+      // Default to login
       const defaultBtn = document.querySelector('[data-target="login-form"]');
       if (defaultBtn) defaultBtn.click();
     </script>
 
-    <!-- Mobile menu toggle (kept intact) -->
+    <!-- Mobile menu toggle -->
     <script>
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
@@ -226,70 +197,62 @@
       }
     </script>
 
-    <!-- Login/Register backend calls (minimal, keeps your UI intact) -->
+    <!-- Backend calls -->
     <script>
-      // Register handler
-      
-  document.getElementById("register-submit").addEventListener("click", async () => {
-    const name = document.getElementById("register-name").value;
-    const mobile = document.getElementById("register-mobile").value;
-    const password = document.getElementById("register-password").value;
+      // Register
+      document.getElementById("register-submit").addEventListener("click", async () => {
+        const name = document.getElementById("register-name").value;
+        const mobile = document.getElementById("register-mobile").value;
+        const password = document.getElementById("register-password").value;
 
-    const payload = {
-      fullName: name,
-      mobile: mobile,
-      passwordHash: password
-    };
+        const payload = { fullName: name, mobile: mobile, passwordHash: password };
 
-    try {
-      const response = await fetch(`${API_BASE}/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        try {
+          const response = await fetch(`${API_BASE}/users/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            alert(data.message || "Registered successfully!");
+          } else {
+            const text = await response.text();
+            alert("Register failed: " + text);
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        alert(data.message || "Registered successfully!");
-      } else {
-        const text = await response.text();
-        alert("Register failed: " + text);
-      }
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
-  });
-      </script>
-
-    <script>
-      // Login handler
+      // Login
       document.getElementById("login-submit").addEventListener("click", async () => {
-    const mobile = document.getElementById("login-mobile").value;
-    const password = document.getElementById("login-password").value;
+        const mobile = document.getElementById("login-mobile").value;
+        const password = document.getElementById("login-password").value;
 
-    const payload = { mobile: mobile, passwordHash: password };
+        const payload = { mobile: mobile, passwordHash: password };
 
-    try {
-      const response = await fetch(`${API_BASE}/users/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        try {
+          const response = await fetch(`${API_BASE}/users/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+            alert("Welcome " + user.fullName);
+            localStorage.setItem("userId", user.id);
+            window.location.href = "userPage.html";
+          } else {
+            const text = await response.text();
+            alert("Login failed: " + text);
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
       });
-
-      if (response.ok) {
-        const user = await response.json();
-        alert("Welcome " + user.fullName);
-        localStorage.setItem("userId", user.id);
-        window.location.href = "userPage.html";
-      } else {
-        const text = await response.text();
-        alert("Login failed: " + text);
-      }
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
-  });
     </script>
-
   </body>
 </html>
