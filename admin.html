@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Civic Complaint Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gov-blue': {
+                            'DEFAULT': '#052e61',
+                            'dark': '#032145'
+                        },
+                        'gov-saffron': '#FF9933',
+                    }
+                },
+            },
+        };
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <style>
+        /* Consistent Status Color Customization */
+        .status-verified {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1d4ed8; /* blue-700 */
+        }
+        .status-new {
+            background-color: #fffbe6; /* amber-100 */
+            color: #b45309; /* amber-800 */
+        }
+        .status-resolved-pending {
+            background-color: #fef3c7; /* yellow-100 */
+            color: #b45309; /* yellow-800 */
+        }
+        /* Mobile Menu Animation (Consistent with other pages) */
+        #mobile-menu {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            transform: translateY(-10px);
+        }
+        #mobile-menu:not(.is-open) {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #mobile-menu.is-open {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="flex min-h-screen">
+        
+        <aside class="w-64 flex-shrink-0 bg-gov-blue text-white hidden lg:flex flex-col">
+            <div class="h-20 flex items-center justify-center bg-gov-blue-dark">
+                <span class="text-xl font-bold">Admin Panel</span>
+            </div>
+            <nav class="flex-1 px-4 py-6">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-md bg-gov-blue-dark font-semibold">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0h5m-5 0a2 2 0 002-2v-4a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 002 2h2m-7-9h2m-2-2h2"></path></svg>
+                    Complaint Management
+                </a>
+                <a href="#" class="mt-2 flex items-center gap-3 px-4 py-3 rounded-md hover:bg-gov-blue-dark transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20h-5v-2a3 3 0 00-5.356-1.857M12 20v-2m0 0a3 3 0 00-5.356-1.857M12 18V5M6.356 7.143l-3.578 3.578M20.356 10.721l-3.578 3.578M7.058 7.058L10 10m-2.942 2.942l3.248 3.248"></path></svg>
+                    Vendor Directory
+                </a>
+                <a href="index.html" class="mt-2 flex items-center gap-3 px-4 py-3 rounded-md text-red-300 hover:bg-red-700 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-gov-blue">Complaint Assignment Workflow</h1>
+                <p class="mt-1 text-gray-600">Review new complaints and manage resolutions.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500">
+                    <p class="text-4xl font-bold text-amber-600">3</p>
+                    <p class="mt-1 text-gray-500">New Complaints (Verify)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500">
+                    <p class="text-4xl font-bold text-blue-600">14</p>
+                    <p class="mt-1 text-gray-500">In Progress (Assigned)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-green-500">
+                    <p class="text-4xl font-bold text-green-600">2</p>
+                    <p class="mt-1 text-gray-500">Resolution Pending Review</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button data-target="new-complaints" class="admin-tab-button flex-1 py-3 text-center font-semibold border-b-2 border-gov-blue text-gov-blue">New Complaints & Assignment</button>
+                    <button data-target="resolution-review" class="admin-tab-button flex-1 py-3 text-center font-semibold border-b-2 border-transparent text-gray-500 hover:text-gov-blue">Vendor Resolution Review</button>
+                </div>
+
+                <div id="new-complaints" class="admin-tab-content space-y-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Complaints Pending Verification & Assignment</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold">ID</th>
+                                    <th class="p-4 font-semibold">Category</th>
+                                    <th class="p-4 font-semibold">Location</th>
+                                    <th class="p-4 font-semibold">Status</th>
+                                    <th class="p-4 font-semibold">Assign Vendor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="p-4 font-medium text-gray-700">TMC-84325</td>
+                                    <td class="p-4 text-gray-600">Pothole</td>
+                                    <td class="p-4 text-gray-600">Vasant Vihar</td>
+                                    <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full status-new">NEW</span></td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <select class="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                            <option>-- Select Department --</option>
+                                            <option>Roads & Highways (Pothole)</option>
+                                            <option>Electrical Dept. (Broken Streetlight)</option>
+                                            <option>Sanitation Dept. (Waste Management)</option>
+                                            <option>Water Authority (Water Logging)</option>
+                                            <option>Planning Dept. (Illegal Construction)</option>
+                                        </select>
+                                        <button class="px-4 py-2 text-sm bg-gov-blue text-white rounded-md hover:bg-gov-blue-dark transition-colors">Assign</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="p-4 font-medium text-gray-700">TMC-84326</td>
+                                    <td class="p-4 text-gray-600">Broken Streetlight</td>
+                                    <td class="p-4 text-gray-600">Kopri, East</td>
+                                    <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full status-new">NEW</span></td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <select class="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                            <option>-- Select Department --</option>
+                                            <option>Roads & Highways (Pothole)</option>
+                                            <option>Electrical Dept. (Broken Streetlight)</option>
+                                            <option>Sanitation Dept. (Waste Management)</option>
+                                            <option>Water Authority (Water Logging)</option>
+                                            <option>Planning Dept. (Illegal Construction)</option>
+                                        </select>
+                                        <button class="px-4 py-2 text-sm bg-gov-blue text-white rounded-md hover:bg-gov-blue-dark transition-colors">Assign</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="resolution-review" class="admin-tab-content space-y-6 hidden">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Resolutions Pending Final Approval</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 font-semibold">ID</th>
+                                    <th class="p-4 font-semibold">Category</th>
+                                    <th class="p-4 font-semibold">Vendor</th>
+                                    <th class="p-4 font-semibold">Status</th>
+                                    <th class="p-4 font-semibold">Proof & Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="p-4 font-medium text-gray-700">TMC-84310</td>
+                                    <td class="p-4 text-gray-600">Water Logging</td>
+                                    <td class="p-4 text-gray-600">Water Authority</td>
+                                    <td class="p-4"><span class="px-2 py-1 text-xs font-semibold rounded-full status-resolved-pending">VENDOR RESOLVED</span></td>
+                                    <td class="p-4 flex items-center gap-2">
+                                        <button class="px-4 py-2 text-sm bg-gov-saffron text-white rounded-md hover:opacity-90 transition-colors">View Proof</button>
+                                        <button class="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Final Resolve</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.admin-tab-button');
+        const contents = document.querySelectorAll('.admin-tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document.getElementById(tab.dataset.target);
+
+                tabs.forEach(t => {
+                    t.classList.remove('text-gov-blue', 'border-gov-blue', 'font-semibold');
+                    t.classList.add('text-gray-500', 'border-transparent', 'hover:text-gov-blue');
+                });
+                tab.classList.add('text-gov-blue', 'border-gov-blue', 'font-semibold');
+                tab.classList.remove('text-gray-500', 'border-transparent');
+
+                contents.forEach(c => c.classList.add('hidden'));
+                target.classList.remove('hidden');
+            });
+        });
+
+        // Default to New Complaints tab
+        document.querySelector('[data-target="new-complaints"]').click();
+    </script>
+</body>
+</html>
